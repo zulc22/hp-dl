@@ -36,3 +36,22 @@ Options:
   -O, --include-out-of-date
   --help                      Show this message and exit.
 ```
+
+## Installation instructions
+
+Requires any version of Python >=3.8.
+
+`pip install -U git+https://github.com/zulc22/hp-dl`
+
+If you're running Windows (and especially if you have more than one Python
+version installed), you'll probably need to additionally use the `py` launcher
+in order to actually get this to work.
+
+`py -3 -m pip install -U git+https://github.com/zulc22/hp-dl`
+
+Lots of Linux users probably would need to use `--user` and `--break-system-packages`
+to use `pip` to install it, but I'd actually recommend using `pipx` to do it:
+
+`pipx install git+https://github.com/zulc22/hp-dl`
+
+`pipx upgrade git+https://github.com/zulc22/hp-dl` (when there's a new version)
