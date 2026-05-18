@@ -14,21 +14,27 @@ import json
     type=click.Path(False, False, True, True, path_type=pathlib.Path),
 )
 @click.option("--include-out-of-date", "-O", is_flag=True)
-@click.argument(
-    "computer_id",
-    help="This shows up at the end of the support URLs on HP's website, e.g. the 4065899 in the URL 'https://support.hp.com/us-en/product/details/hp-compaq-8000-elite-ultra-slim-pc/4065899'.",
-)
+@click.argument("computer_id")
 def main(
     output_dir: "pathlib.Path | None", include_out_of_date: bool, computer_id: str
 ):
-    if output_dir is None:
-        print("Please specify an output dir (--output-dir ...)")
-        return
+    """
+    Download an archive of all drivers for an HP computer.
 
-    output_dir.mkdir(exist_ok=True)
+    <computer_id> shows up at the end of the support URLs on HP's website,
+    e.g. the 4065899 in the URL 'https://support.hp.com/us-en/product/details/hp-compaq-8000-elite-ultra-slim-pc/4065899'.
+    """
+    if output_dir is not None:
+        output_dir.mkdir(exist_ok=True)
 
     print("Attempting to dump drivers for series", computer_id)
     c = computer.Computer(computer_id)
+
+    if output_dir is None:
+        output_dir = pathlib.Path("./" + safe_filename(c.name))
+        print("Output path named automatically:", output_dir)
+        output_dir.mkdir(exist_ok=True)
+
     for v in c.platform_versions:
         os_dump_path = output_dir / v.name
         os_dump_path.mkdir(exist_ok=True)

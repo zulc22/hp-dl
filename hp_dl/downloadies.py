@@ -32,6 +32,7 @@ def download_url(url, output_path):
                 return
 
     print("=>| Downloading to", output_path)
+    # todo: why doesn't the bar get left on the screen??
     with DownloadProgressBar(
         unit="B", unit_scale=True, miniters=1, desc=url.split("/")[-1]
     ) as t:
