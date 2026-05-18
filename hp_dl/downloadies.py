@@ -31,7 +31,7 @@ def download_url(url, output_path):
                 print("Size matched, skipping download")
                 return
 
-    print("== Download started to: ", output_path)
+    print("=>| Downloading to", output_path)
     with DownloadProgressBar(
         unit="B", unit_scale=True, miniters=1, desc=url.split("/")[-1]
     ) as t:

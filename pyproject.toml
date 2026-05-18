@@ -1,17 +1,13 @@
 [project]
 name = "hp-dl"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.1.1"
+description = "Command-line utility for downloading drivers from HP's driver support site."
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = [
-    "click>=8.1.8",
-    "requests>=2.32.4",
-    "tqdm>=4.67.3",
-]
+dependencies = ["click>=8.1.8", "requests>=2.32.4", "tqdm>=4.67.3"]
 
 [project.scripts]
-hp-dl = "hp_dl"
+hp-dl = "hp_dl.cli:main"
 
 
 [tool.hatch.build.targets.wheel]

@@ -13,8 +13,11 @@ import json
     "-o",
     type=click.Path(False, False, True, True, path_type=pathlib.Path),
 )
-@click.option("--include-out-of-date", "-O")
-@click.argument("computer_id")
+@click.option("--include-out-of-date", "-O", is_flag=True)
+@click.argument(
+    "computer_id",
+    help="This shows up at the end of the support URLs on HP's website, e.g. the 4065899 in the URL 'https://support.hp.com/us-en/product/details/hp-compaq-8000-elite-ultra-slim-pc/4065899'.",
+)
 def main(
     output_dir: "pathlib.Path | None", include_out_of_date: bool, computer_id: str
 ):
@@ -37,7 +40,7 @@ def main(
                 if include_out_of_date:
                     if driver["previousVersionOfDriversList"] is not None:
                         for d in driver["previousVersionOfDriversList"]:
-                            download_driver(d, category_dump_path)
+                            download_driver(d, category_dump_path / "Previous versions")
 
 
 def download_driver(data, directory: pathlib.Path):
@@ -51,7 +54,9 @@ def download_driver(data, directory: pathlib.Path):
     new_filename: str = safe_filename(
         original_filename.stem + " - " + data["title"] + original_filename.suffix
     )
-    new_metafile: str = original_filename.stem + " - " + data["title"] + ".meta.json"
+    new_metafile: str = safe_filename(
+        original_filename.stem + " - " + data["title"] + ".meta.json"
+    )
     output_path = directory / new_filename
     with open(directory / new_metafile, "w") as fp:
         json.dump(data, fp)
